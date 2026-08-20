@@ -4,7 +4,6 @@ import { getTodos, postTodo, putTodo } from './index.ts'
 describe('getTodos', () => {
   afterEach(() => {
     vi.unstubAllGlobals()
-    vi.unstubAllEnvs()
   })
 
   it('fetches and returns the todos', async () => {
@@ -39,7 +38,6 @@ describe('getTodos', () => {
 describe('postTodo', () => {
   afterEach(() => {
     vi.unstubAllGlobals()
-    vi.unstubAllEnvs()
   })
 
   it('posts valid form data', async () => {
@@ -95,7 +93,6 @@ describe('postTodo', () => {
 describe('putTodo', () => {
   afterEach(() => {
     vi.unstubAllGlobals()
-    vi.unstubAllEnvs()
   })
 
   it('patches the todo at its id', async () => {
