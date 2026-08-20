@@ -25,6 +25,7 @@ function HomePage() {
         id: todo.id,
         title: <TodoTitle item={todo} />,
         icon: <TodoChecked item={todo} />,
+        disabled: isReadonly,
       }
       if (!isReadonly) {
         item.onClick = (id) => checkTodo({ id, checked: !todo.checked })
@@ -54,38 +55,43 @@ function HomePage() {
           gap: 2,
         }}
       >
-        {!isReadonly && (
-          <Card
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              gap: 2,
-            }}
-          >
-            <form onSubmit={handleSubmit}>
-              <Stack component={CardContent} spacing={2}>
-                <AppTitle value="Add new task" type="subtitle" />
-                <TextField id="title" name="title" label="Title" />
-                <AppDatePicker id="date" name="date" label="Due date" />
-              </Stack>
+        <Card
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: 2,
+          }}
+        >
+          <form onSubmit={handleSubmit}>
+            <Stack component={CardContent} spacing={2}>
+              <AppTitle value="Add new task" type="subtitle" />
+              <TextField id="title" name="title" label="Title" />
+              <AppDatePicker id="date" name="date" label="Due date" />
+            </Stack>
 
-              <Stack
-                component={CardActions}
-                direction={'row'}
-                spacing={2}
-                sx={{ justifyContent: 'center' }}
+            <Stack
+              component={CardActions}
+              direction={'row'}
+              spacing={2}
+              sx={{ justifyContent: 'center' }}
+            >
+              <Button
+                variant="contained"
+                type="submit"
+                disabled={isPending || !isReadonly}
               >
-                <Button variant="contained" type="submit" disabled={isPending}>
-                  {'Add Todo'}
-                </Button>
-                <Button variant="outlined" type="reset" disabled={isPending}>
-                  {'Reset'}
-                </Button>
-              </Stack>
-            </form>
-          </Card>
-        )}
-
+                {'Add Todo'}
+              </Button>
+              <Button
+                variant="outlined"
+                type="reset"
+                disabled={isPending || !isReadonly}
+              >
+                {'Reset'}
+              </Button>
+            </Stack>
+          </form>
+        </Card>
         <Card
           sx={{
             display: 'flex',
