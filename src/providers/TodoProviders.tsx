@@ -9,6 +9,7 @@ interface Props {
 
 export function TodoProvider({ children }: Props) {
   const queryClient = useQueryClient()
+  const isReadonly = import.meta.env.VITE_READONLY === 'true'
 
   const {
     data: todos = [],
@@ -46,6 +47,7 @@ export function TodoProvider({ children }: Props) {
         isLoading,
         isError,
         isPending: saveTodo.isPending,
+        isReadonly,
         addTodo: saveTodo.mutate,
         checkTodo: checkTodo.mutate,
       }}

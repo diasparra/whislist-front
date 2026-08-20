@@ -14,6 +14,7 @@ function mockUseTodos(overrides: Partial<ReturnType<typeof useTodos>> = {}) {
     isLoading: false,
     isError: false,
     isPending: false,
+    isReadonly: false,
     addTodo: vi.fn(),
     checkTodo: vi.fn(),
     ...overrides,
@@ -70,5 +71,27 @@ describe('HomePage', () => {
     render(<HomePage />)
     expect(screen.getByRole('button', { name: 'Add Todo' })).toBeDisabled()
     expect(screen.getByRole('button', { name: 'Reset' })).toBeDisabled()
+  })
+
+  it('hides the add-task form when readonly', () => {
+    mockUseTodos({ isReadonly: true })
+    render(<HomePage />)
+    expect(screen.queryByLabelText('Title')).not.toBeInTheDocument()
+    expect(
+      screen.queryByRole('button', { name: 'Add Todo' }),
+    ).not.toBeInTheDocument()
+  })
+
+  it('does not call checkTodo when a todo icon is clicked while readonly', () => {
+    const checkTodo = vi.fn()
+    const todos: TodoDTO[] = [
+      { id: '1', title: 'Buy milk', date: '2026-08-20', checked: false },
+    ]
+    mockUseTodos({ todos, checkTodo, isReadonly: true })
+    render(<HomePage />)
+
+    fireEvent.click(screen.getByRole('button', { name: '' }))
+
+    expect(checkTodo).not.toHaveBeenCalled()
   })
 })

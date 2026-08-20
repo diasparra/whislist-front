@@ -87,5 +87,11 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Write production env
+        run: printf 'VITE_API_URL=todos.json\nVITE_READONLY=true\n' > .env.production
+
+      - name: Generate static demo data
+        run: npm run db:generate:pages
+
       - name: Build
         run: npm run build

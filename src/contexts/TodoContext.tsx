@@ -6,6 +6,7 @@ interface TodoContextValue {
   isLoading: boolean
   isError: boolean
   isPending: boolean
+  isReadonly: boolean
   addTodo: (data: FormData) => void
   checkTodo: (newValue: UpdateTodoDTO) => void
 }

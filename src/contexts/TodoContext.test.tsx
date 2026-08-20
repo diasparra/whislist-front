@@ -22,6 +22,7 @@ describe('useTodos', () => {
           isLoading: false,
           isError: false,
           isPending: false,
+          isReadonly: false,
           addTodo: () => {},
           checkTodo: () => {},
         }}

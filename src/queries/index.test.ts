@@ -18,6 +18,21 @@ describe('getTodos', () => {
     expect(fetchMock).toHaveBeenCalledWith('http://localhost:3000/todos')
     expect(result).toEqual(todos)
   })
+
+  it('fetches the static demo file when readonly', async () => {
+    vi.stubEnv('VITE_READONLY', 'true')
+    vi.stubEnv('VITE_API_URL', 'todos.json')
+    const todos = [{ id: '1', title: 'Buy milk', date: '2026-08-20' }]
+    const fetchMock = vi.fn().mockResolvedValue({
+      json: () => Promise.resolve(todos),
+    })
+    vi.stubGlobal('fetch', fetchMock)
+
+    const result = await getTodos()
+
+    expect(fetchMock).toHaveBeenCalledWith('/todos.json')
+    expect(result).toEqual(todos)
+  })
 })
 
 describe('postTodo', () => {
@@ -58,6 +73,21 @@ describe('postTodo', () => {
     await expect(postTodo(formData)).rejects.toBeDefined()
     expect(fetchMock).not.toHaveBeenCalled()
   })
+
+  it('rejects and does not call fetch when readonly', async () => {
+    vi.stubEnv('VITE_READONLY', 'true')
+    const fetchMock = vi.fn()
+    vi.stubGlobal('fetch', fetchMock)
+
+    const formData = new FormData()
+    formData.set('title', 'Buy milk')
+    formData.set('date', '2026-08-20')
+
+    await expect(postTodo(formData)).rejects.toThrow(
+      'postTodo is disabled in read-only mode',
+    )
+    expect(fetchMock).not.toHaveBeenCalled()
+  })
 })
 
 describe('putTodo', () => {
@@ -92,6 +122,17 @@ describe('putTodo', () => {
       // @ts-expect-error missing required id
       putTodo({ checked: true }),
     ).rejects.toBeDefined()
+    expect(fetchMock).not.toHaveBeenCalled()
+  })
+
+  it('rejects and does not call fetch when readonly', async () => {
+    vi.stubEnv('VITE_READONLY', 'true')
+    const fetchMock = vi.fn()
+    vi.stubGlobal('fetch', fetchMock)
+
+    await expect(putTodo({ id: '1', checked: true })).rejects.toThrow(
+      'putTodo is disabled in read-only mode',
+    )
     expect(fetchMock).not.toHaveBeenCalled()
   })
 })

@@ -27,10 +27,11 @@ function renderWithProvider(children: ReactNode) {
 }
 
 function Consumer() {
-  const { todos, isLoading, addTodo, checkTodo } = useTodos()
+  const { todos, isLoading, isReadonly, addTodo, checkTodo } = useTodos()
   return (
     <div>
       <span>{isLoading ? 'loading' : `count:${todos.length}`}</span>
+      <span>{isReadonly ? 'readonly' : 'writable'}</span>
       <button onClick={() => addTodo(new FormData())}>add</button>
       <button onClick={() => checkTodo({ id: '1', checked: true })}>
         check
@@ -50,6 +51,17 @@ describe('TodoProvider', () => {
     expect(screen.getByText('loading')).toBeInTheDocument()
     await waitFor(() => {
       expect(screen.getByText('count:1')).toBeInTheDocument()
+    })
+  })
+
+  it('surfaces isReadonly from VITE_READONLY', async () => {
+    vi.mocked(getTodos).mockResolvedValue([])
+    vi.stubEnv('VITE_READONLY', 'true')
+
+    renderWithProvider(<Consumer />)
+
+    await waitFor(() => {
+      expect(screen.getByText('readonly')).toBeInTheDocument()
     })
   })
 
