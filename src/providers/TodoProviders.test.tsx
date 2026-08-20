@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react'
-import { describe, expect, it, vi } from 'vitest'
+import { afterEach, describe, expect, it, vi } from 'vitest'
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { TodoProvider } from './TodoProviders.tsx'
@@ -27,10 +27,11 @@ function renderWithProvider(children: ReactNode) {
 }
 
 function Consumer() {
-  const { todos, isLoading, addTodo, checkTodo } = useTodos()
+  const { todos, isLoading, isReadonly, addTodo, checkTodo } = useTodos()
   return (
     <div>
       <span>{isLoading ? 'loading' : `count:${todos.length}`}</span>
+      <span>{isReadonly ? 'readonly' : 'writable'}</span>
       <button onClick={() => addTodo(new FormData())}>add</button>
       <button onClick={() => checkTodo({ id: '1', checked: true })}>
         check
@@ -40,6 +41,10 @@ function Consumer() {
 }
 
 describe('TodoProvider', () => {
+  afterEach(() => {
+    vi.unstubAllEnvs()
+  })
+
   it('exposes the fetched todos once loaded', async () => {
     vi.mocked(getTodos).mockResolvedValue([
       { id: '1', title: 'Buy milk', date: '2026-08-20' },
@@ -50,6 +55,17 @@ describe('TodoProvider', () => {
     expect(screen.getByText('loading')).toBeInTheDocument()
     await waitFor(() => {
       expect(screen.getByText('count:1')).toBeInTheDocument()
+    })
+  })
+
+  it('surfaces isReadonly from VITE_READONLY', async () => {
+    vi.mocked(getTodos).mockResolvedValue([])
+    vi.stubEnv('VITE_READONLY', 'true')
+
+    renderWithProvider(<Consumer />)
+
+    await waitFor(() => {
+      expect(screen.getByText('readonly')).toBeInTheDocument()
     })
   })
 

@@ -6,6 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "build:external": "tsc -b && vite build --mode external",
+    "build:development": "tsc -b && vite build --mode development",
     "lint": "eslint .",
     "preview": "vite preview",
     "test": "vitest run",
@@ -13,7 +15,8 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "backend": "npx json-server db.json --watch",
-    "db:generate": "node scripts/generate-db.js"
+    "db:generate": "node scripts/generate-db.js",
+    "db:generate:pages": "node scripts/generate-db.js 10 --out public/todos.json --format array"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",

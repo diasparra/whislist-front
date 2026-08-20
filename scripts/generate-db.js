@@ -5,7 +5,21 @@ import { faker } from '@faker-js/faker'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 
-const TODO_COUNT = Number(process.argv[2]) || 10
+function parseArgs(argv) {
+  const args = { count: 10, out: null, format: 'db' }
+  const positional = []
+  for (let i = 0; i < argv.length; i++) {
+    if (argv[i] === '--out') args.out = argv[++i]
+    else if (argv[i] === '--format') args.format = argv[++i]
+    else positional.push(argv[i])
+  }
+  if (positional[0] !== undefined) {
+    args.count = Number(positional[0]) || args.count
+  }
+  return args
+}
+
+const { count: TODO_COUNT, out, format } = parseArgs(process.argv.slice(2))
 
 const formatDate = (date) => {
   const month = String(date.getMonth() + 1).padStart(2, '0')
@@ -20,12 +34,15 @@ const todos = Array.from({ length: TODO_COUNT }, () => ({
   checked: faker.datatype.boolean(),
 }))
 
-const db = {
-  todos,
-  $schema: './node_modules/json-server/schema.json',
-}
+const payload =
+  format === 'array'
+    ? todos
+    : { todos, $schema: './node_modules/json-server/schema.json' }
 
-const outputPath = resolve(__dirname, '..', 'db.json')
-writeFileSync(outputPath, JSON.stringify(db, null, 2) + '\n')
+const outputPath = out
+  ? resolve(process.cwd(), out)
+  : resolve(__dirname, '..', 'db.json')
 
-console.log(`Generated ${TODO_COUNT} todos in ${outputPath}`)
+writeFileSync(outputPath, JSON.stringify(payload, null, 2) + '\n')
+
+console.log(`Generated ${TODO_COUNT} todos (${format}) in ${outputPath}`)

@@ -15,6 +15,7 @@ coverage
 
 # Generated mock backend data
 db.json
+public/todos.json
 
 # Editor directories and files
 .vscode/*
@@ -26,3 +27,5 @@ db.json
 *.njsproj
 *.sln
 *.sw?
+
+.env.*
