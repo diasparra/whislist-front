@@ -15,11 +15,11 @@ The React Compiler is not enabled on this template because of its impact on dev 
 
 The API base URL is driven by Vite's mode system (`.env.<mode>` + `import.meta.env`):
 
-| Mode | Command | `VITE_API_URL` | `VITE_READONLY` | Behavior |
-|---|---|---|---|---|
-| development | `npm run dev` (+ `npm run backend`) | `http://localhost:3000` | `false` | Full read/write against local json-server |
-| production (default) | `npm run build` | `todos.json` (resolved against `BASE_URL`) | `true` | Static read-only demo for GitHub Pages; run `npm run db:generate:pages` first |
-| external | `npm run build:external` | placeholder URL | `false` | Scaffold for a future real backend; edit `.env.external` when the URL exists |
+| Mode                 | Command                             | `VITE_API_URL`                             | `VITE_READONLY` | Behavior                                                                      |
+| -------------------- | ----------------------------------- | ------------------------------------------ | --------------- | ----------------------------------------------------------------------------- |
+| development          | `npm run dev` (+ `npm run backend`) | `http://localhost:3000`                    | `false`         | Full read/write against local json-server                                     |
+| production (default) | `npm run build`                     | `todos.json` (resolved against `BASE_URL`) | `true`          | Static read-only demo for GitHub Pages; run `npm run db:generate:pages` first |
+| external             | `npm run build:external`            | placeholder URL                            | `false`         | Scaffold for a future real backend; edit `.env.external` when the URL exists  |
 
 Seed data (same faker-based generator for both):
 
