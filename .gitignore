@@ -13,6 +13,10 @@ dist-ssr
 coverage
 *.local
 
+# Generated mock backend data
+db.json
+public/todos.json
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
@@ -23,3 +27,5 @@ coverage
 *.njsproj
 *.sln
 *.sw?
+
+.env.*
