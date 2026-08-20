@@ -9,7 +9,7 @@ interface Props {
   label: string
 }
 
-export default function AppDatePicker({ id, name, label }: Props) {
+export default function AppDatePicker({id, name, label }: Props) {
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <DemoContainer components={['DatePicker']}>

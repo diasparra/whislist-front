@@ -20,8 +20,10 @@ export default function RootLayout({ children }: Props) {
     <StrictMode>
       <QueryClientProvider client={queryClient}>
         <ThemeProvider theme={theme}>
-          <CssBaseline enableColorScheme={true} />
-          <TodoProvider>{children}</TodoProvider>
+          <CssBaseline enableColorScheme={true}/>
+          <TodoProvider>
+          {children}
+          </TodoProvider>
         </ThemeProvider>
       </QueryClientProvider>
     </StrictMode>

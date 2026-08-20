@@ -65,12 +65,7 @@ function HomePage() {
               <AppDatePicker id="date" name="date" label="Due date" />
             </Stack>
 
-            <Stack
-              component={CardActions}
-              direction={'row'}
-              spacing={2}
-              sx={{ justifyContent: 'center' }}
-            >
+            <Stack component={CardActions} direction={'row'} spacing={2} sx={{justifyContent: 'center'}}>
               <Button variant="contained" type="submit" disabled={isPending}>
                 {'Add Todo'}
               </Button>
