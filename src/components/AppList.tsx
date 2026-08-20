@@ -1,32 +1,27 @@
-import List from '@mui/material/List'
-import ListItem from '@mui/material/ListItem'
-import type { ReactNode } from 'react'
-import { IconButton, ListItemText } from '@mui/material'
-
-export interface AppListItem {
-  id: string
-  title: ReactNode
-  icon?: ReactNode
-  onClick?: (id: string) => void
-}
+import { type ReactNode } from 'react'
+import { Box } from '@mui/material'
 
 interface Props {
-  items: AppListItem[]
+  items: ReactNode[]
 }
 
 export default function AppList({ items }: Props) {
   return (
-    <List>
-      {items.map((item) => (
-        <ListItem key={item.id}>
-          {item.icon && (
-            <IconButton onClick={() => item.onClick && item.onClick(item.id)}>
-              {item.icon}
-            </IconButton>
-          )}
-          <ListItemText primary={item.title} />
-        </ListItem>
+    <Box
+      component="ul"
+      sx={{
+        listStyle: 'none',
+        p: 0,
+        display: 'flex',
+        gap: 1,
+        flexWrap: 'wrap',
+      }}
+    >
+      {items.map((item, index) => (
+        <Box component={'li'} key={index}>
+          {item}
+        </Box>
       ))}
-    </List>
+    </Box>
   )
 }

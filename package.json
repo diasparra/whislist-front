@@ -6,34 +6,23 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "build:external": "tsc -b && vite build --mode external",
-    "build:development": "tsc -b && vite build --mode development",
     "lint": "eslint .",
     "preview": "vite preview",
     "test": "vitest run",
     "coverage": "vitest run --coverage",
     "format": "prettier --write .",
-    "format:check": "prettier --check .",
-    "backend": "npx json-server db.json --watch",
-    "db:generate": "node scripts/generate-db.js",
-    "db:generate:pages": "node scripts/generate-db.js 10 --out public/todos.json --format array"
+    "format:check": "prettier --check ."
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
     "@mui/icons-material": "^9.2.0",
     "@mui/material": "^9.2.0",
-    "@mui/x-date-pickers": "^9.11.0",
-    "@tanstack/react-query": "^5.101.4",
-    "json-server": "^1.0.0-beta.15",
     "react": "^19.2.8",
-    "react-dom": "^19.2.8",
-    "zod": "^4.4.3"
+    "react-dom": "^19.2.8"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
-    "@faker-js/faker": "^10.6.0",
-    "@tanstack/eslint-plugin-query": "^5.101.4",
     "@testing-library/jest-dom": "^7.0.1",
     "@testing-library/react": "^16.3.2",
     "@types/node": "^24.13.3",
